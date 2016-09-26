@@ -1,0 +1,36 @@
+{
+  "name": "space-fighter",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "export NODE_ENV=production; PORT=8100 node ./bin/www",
+    "devstart": "export NODE_ENV=development; PORT=8100 nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "export NODE_ENV=production; rm -rf public/* && webpack -p",
+    "debug": "PORT=9100; node-debug -c ./bin/www",
+    "quickstart": "npm run build; npm start;",
+    "webserver": "export NODE_ENV=development; webpack-dev-server --port 8000 --progress --colors --inline--hot",
+    "dev": "concurrently 'npm run devstart' 'npm run webserver'",
+    "task": "node ./server/tasks/taskRunner"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "phaser": "^2.6.2",
+    "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.24.0",
+    "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.22.0",
+    "nodemon": "^1.10.2",
+    "script-loader": "^0.7.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.1"
+  }
+}
