@@ -20,3 +20,4 @@ game.state.add("theGame",theGame);
 game.state.start("boot");
 
 window.socket = io.connect('http://localhost:8100');
+window.PRIORITY_ACCUMULATOR = {};

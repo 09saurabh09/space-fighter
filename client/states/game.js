@@ -15,9 +15,11 @@ let clients = {};
 Game.prototype = {
     init: function() {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        setInterval(this.syncGameState, 0.1);
         socket.on("rightKeyPressed", this.handleRightKey.bind(this));
         socket.on("leftKeyPressed", this.handleLeftKey.bind(this));
         socket.on("upKeyPressed", this.handleUpKey.bind(this));
+        socket.on("shootKeyPressed", this.handleShootKey.bind(this));
         socket.on("newClientConnected", this.addNewClient.bind(this));
     },
 
@@ -52,7 +54,6 @@ Game.prototype = {
 
         //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
         weapon.fireRate = 100;
-        weapon.trackSprite(spaceShip, 0, 0, true);
 
         this.game.physics.arcade.enable(weapon);
 
@@ -62,10 +63,10 @@ Game.prototype = {
 
     update: function() {
         let self = this;
-        if(spaceShip) {
-            spaceShip.body.velocity.x = 0;
-            spaceShip.body.velocity.y = 0;
-            spaceShip.body.angularVelocity = 0;
+        if(clients[socket.id] && clients[socket.id]["spaceship"]) {
+            clients[socket.id]["spaceship"].body.velocity.x = 0;
+            clients[socket.id]["spaceship"].body.velocity.y = 0;
+            clients[socket.id]["spaceship"].body.angularVelocity = 0;
             if (cursors.left.isDown) {
                 //spaceShip.x -= 2;
                 //spaceShip.angle = 180;
@@ -89,9 +90,8 @@ Game.prototype = {
                 //spaceShip.angle = 90;
             }
 
-            if (fireButton.isDown)
-            {
-                weapon.fire();
+            if (fireButton.isDown) {
+                socket.emit("shootKey");
             }
 
             this.game.physics.arcade.collide(spaceShip, asteroids, function(spaceShip, asteroid){
@@ -126,7 +126,12 @@ Game.prototype = {
         spaceShip = this.game.add.sprite(location.x, location.y, 'spaceship');
         spaceShip.anchor.setTo(0.5);
         spaceShip.scale.setTo(0.5);
-        this.game.camera.follow(spaceShip);
+
+        // If new client is you only
+        if (id == socket.id) {
+            this.game.camera.follow(spaceShip);
+            weapon.trackSprite(spaceShip, 0, 0, true);
+        }
         this.game.physics.arcade.enable(spaceShip);
         clients[id] = {};
         clients[id]["spaceship"] = spaceShip;
@@ -151,15 +156,24 @@ Game.prototype = {
     },
 
     handleRightKey: function(client) {
-        spaceShip.body.angularVelocity = 200;
+        clients[client]["spaceship"].body.angularVelocity = 200;
     },
 
     handleLeftKey: function(client) {
-        spaceShip.body.angularVelocity = -200;
+        clients[client]["spaceship"].body.angularVelocity = -200;
     },
 
     handleUpKey: function(client) {
-        this.game.physics.arcade.velocityFromAngle(spaceShip.angle, 200, spaceShip.body.velocity);
+        var ship = clients[client]["spaceship"];
+        this.game.physics.arcade.velocityFromAngle(ship.angle, 200, ship.body.velocity);
+    },
+
+    handleShootKey: function(client) {
+        weapon.fire();
+    },
+
+    syncGameState: function() {
+
     }
 };
 

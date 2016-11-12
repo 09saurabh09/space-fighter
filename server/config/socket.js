@@ -7,22 +7,26 @@ io.on('connection', function (socket) {
     console.log("client connected");
 
     socket.on("loadNewClient", function(location) {
-        io.emit("newClientConnected", {id: socket.id, location: location});
+        io.emit("newClientConnected", {id: socket.client.id, location: location});
     });
 
     socket.on("leftKey", function(){
-        io.emit("leftKeyPressed", socket.id);
+        io.emit("leftKeyPressed", socket.client.id);
     });
 
     socket.on("rightKey", function(){
-        io.emit("rightKeyPressed", socket.id);
+        io.emit("rightKeyPressed", socket.client.id);
     });
 
     socket.on("upKey", function(){
-        io.emit("upKeyPressed", socket.id);
+        io.emit("upKeyPressed", socket.client.id);
+    });
+
+    socket.on("shootKey", function(){
+        io.emit("shootKeyPressed", socket.client.id);
     });
 
     socket.on("disconnect", function(){
-        io.emit("userDisconnected", socket.id);
+        io.emit("userDisconnected", socket.client.id);
     });
 });
