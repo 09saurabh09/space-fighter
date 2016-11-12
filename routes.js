@@ -4,17 +4,12 @@
 "use strict";
 const userRoute = require("./server/user/userRoute");
 const gameRoute = require("./server/game/gameRoute");
+const dashboardRoute = require("./server/dashboard/dashboardRoute");
 
 module.exports = function(app) {
 
     // Add routes for your module
-    app.use('/game', function(req, res) {
-        res.render("game");
-    });
-
-    app.use('/', function(req, res) {
-        res.render('index', { title: 'Express' });
-    });
+    app.use('/', dashboardRoute);
 
     app.use('/api/user', userRoute);
 
