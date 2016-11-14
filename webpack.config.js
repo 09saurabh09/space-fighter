@@ -12,11 +12,13 @@ var phaser = path.join(phaserModule, 'build/custom/phaser-split.js'),
     p2 = path.join(phaserModule, 'build/custom/p2.js');
 var production = process.env.NODE_ENV == "production";
 
-var webpackPlugins = [new HtmlWebpackPlugin({
-    filename: 'index.html',
-    template: path.join(libPath, 'index.ejs'),
-    inject: true
-})];
+//var webpackPlugins = [new HtmlWebpackPlugin({
+//    filename: 'index.html',
+//    template: path.join(libPath, 'index.ejs'),
+//    inject: true
+//})];
+
+var webpackPlugins = [];
 
 if (production) {
     webpackPlugins.push(new webpack.optimize.OccurenceOrderPlugin());

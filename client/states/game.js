@@ -10,7 +10,7 @@ var Game = function(){
 };
 
 var cursors, spaceShip, weapon, fireButton, asteroids;
-let clients = {};
+var clients = {};
 
 Game.prototype = {
     init: function() {
@@ -62,7 +62,7 @@ Game.prototype = {
     },
 
     update: function() {
-        let self = this;
+        var self = this;
         if(clients[socket.id] && clients[socket.id]["spaceship"]) {
             clients[socket.id]["spaceship"].body.velocity.x = 0;
             clients[socket.id]["spaceship"].body.velocity.y = 0;
@@ -112,7 +112,7 @@ Game.prototype = {
     },
 
     createSpaceShip: function() {
-        let location = {
+        var location = {
             x: this.game.world.bounds.randomX,
             y: this.game.world.bounds.randomY
         };
@@ -121,8 +121,8 @@ Game.prototype = {
     },
 
     addNewClient: function(data) {
-        let id = data.id;
-        let location = data.location;
+        var id = data.id;
+        var location = data.location;
         spaceShip = this.game.add.sprite(location.x, location.y, 'spaceship');
         spaceShip.anchor.setTo(0.5);
         spaceShip.scale.setTo(0.5);
@@ -143,7 +143,7 @@ Game.prototype = {
             asteroid.body.setCircle(24);
             asteroid.body.collideWorldBounds = true;
             asteroid.body.bounce.set(1);
-            let negativeVelocity = Math.random() > 0.5 ? 1: -1;
+            var negativeVelocity = Math.random() > 0.5 ? 1: -1;
             asteroid.body.velocity.set(negativeVelocity * 50 * Math.random(), negativeVelocity * 50 * Math.random());
         }
     },

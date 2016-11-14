@@ -1,12 +1,54 @@
+"use strict";
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-require('./server/utils/globalConstant');
+require('./server/config/globalConstant');
+
+var mongoose = require('mongoose');
+let configDB = require('./server/config/database');
+
 
 var app = express();
+
+
+// configuration ===============================================================
+mongoose.connect(configDB.mongoUrl);
+
+// CONNECTION EVENTS
+// When successfully connected
+mongoose.connection.on('connected', function () {
+    console.log('Connected to MongoDB ');
+    mongoose.set('debug', true);
+});
+
+// If the connection throws an error
+mongoose.connection.on('error', function (err) {
+    console.log('Mongoose connection error: ' + err.message);
+});
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function () {
+    console.log('Mongoose  connection disconnected');
+});
+
+// If the Node process ends, close the Mongoose connection
+process.on('SIGINT', function () {
+    mongoose.connection.close(function () {
+        console.log('Mongoose connection disconnected through app termination');
+        process.exit(0);
+    });
+});
+
+process.on('exit', function () {
+    mongoose.connection.close(function () {
+        console.log('Mongoose connection disconnected through app termination');
+        process.exit(0);
+    });
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

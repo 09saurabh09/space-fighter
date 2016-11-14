@@ -8,10 +8,10 @@ module.exports = Preloader;
 Preloader.prototype = {
 
     preload: function () {
-        let star = require("file!../images/rsz_star.png");
-        let asteroid = require("file!../images/rsz_asteroid-icon.png");
-        let bullet = require("file!../images/shmup-bullet.png");
-        let blueship = require("file!../images/rsz_blueship.png");
+        var star = require("file!../images/rsz_star.png");
+        var asteroid = require("file!../images/rsz_asteroid-icon.png");
+        var bullet = require("file!../images/shmup-bullet.png");
+        var blueship = require("file!../images/rsz_blueship.png");
         //this.asset = this.add.sprite(320, 240, 'preloader');
         //this.asset.anchor.setTo(0.5, 0.5);
         //this.load.setPreloadSprite(this.asset);

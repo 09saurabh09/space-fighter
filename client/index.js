@@ -6,10 +6,10 @@
 //require('p2');
 //require('phaser');
 //require('./css/parallax.css');
-let boot = require("./states/boot");
-let preload = require("./states/preload");
-let menu = require("./states/menu");
-let theGame = require("./states/game");
+var boot = require("./states/boot");
+var preload = require("./states/preload");
+var menu = require("./states/menu");
+var theGame = require("./states/game");
 //
 var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, "space-fighter-game");
 
